@@ -1,0 +1,6 @@
+server:
+  ip: "40.1.0.73"
+  port: 161
+  version: 2c
+  timeout: 2
+  retries: 5

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        {{range .Out}}
+            <form method="get" action="device">
+                <input type="text" value="{{.Names}}" name="device" readonly>
+                {{if eq .States "installed"}}
+                <input type="submit" value="выбрать" > 
+                {{else}}
+            {{end}}
+            </form>
+            {{.States}} 
+            <br>
+            <br>
+            <br>
+        {{end}}
+    </div>
+</body>
+</html>
