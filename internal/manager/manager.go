@@ -30,15 +30,20 @@ type Manager struct {
 	PDU
 }
 
-func NewManager(m PDU) *Manager {
+func NewManager(m PDU, conf Config) *Manager {
+	var devices []Device
+	for _, val := range conf.Devices {
+		d := Device{name: val.Name, ip: val.IP, ports: []portInfo{{oid: val.Ports[0].OID, port: val.Ports[0].Port}}}
+		devices = append(devices, d)
+	}
 	return &Manager{
 		PDU: m,
-		Devices: []Device{{name: "apc1", ip: "40.1.0.73", ports: []portInfo{{oid: ".1.3.6.1.4.1.318.1.1.10.3.3.1.1.3.1", port: 1}}},
-			{name: "apc2", ip: "40.1.0.55", ports: []portInfo{{oid: ".1.3.6.1.4.1.318.1.1.4.4.2.1.3.23", port: 23}, {oid: ".1.3.6.1.4.1.318.1.1.4.4.2.1.3.24", port: 24}}}},
+		Devices: devices,
 	}
 }
 
 func (m *Manager) SearchDevice(name string) (Device, error) {
+	fmt.Println("New: ", m)
 	for _, val := range m.Devices {
 		if val.name == name {
 			return val, nil

@@ -3,14 +3,14 @@ package server
 import (
 	"fmt"
 	"net/http"
-	"snmp_get/internal/manager"
-
 	"html/template"
+
+	"snmp_get/internal/manager"
 )
 
 var (
 	tmpl     *template.Template
-	tmplMain *template.Template
+	tmplManager, tmplMain, tmplLogin *template.Template
 )
 
 type Client interface {
@@ -19,29 +19,44 @@ type Client interface {
 	ClientSetDevice(port string, state string, name string) error
 }
 
-type ManageToAPI struct {
-	Client
-	DeviceName string
+type DataBase interface {
+	Login (login, Password string) error
 }
 
-func NewManageToAPI(m Client) *ManageToAPI {
+type ManageToAPI struct {
+	Client
+	DataBase
+	DeviceName string
+	Auth bool
+}
+
+func NewManageToAPI(m Client, d DataBase) *ManageToAPI {
 	return &ManageToAPI{
 		Client: m,
+		DataBase: d,
+		Auth: false,
 	}
 }
 
 // Init template
 func init() {
-	tmpl = template.Must(template.ParseFiles("/home/manage/Documents/snmp_get/static/index.html"))
-	tmplMain = template.Must(template.ParseFiles("/home/manage/Documents/snmp_get/static/main.html"))
+	tmpl = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/index.html"))
+	tmplManager = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/manager.html"))
+	tmplMain = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/main.html"))
+	tmplLogin = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/login.html"))
 }
 
-func StartServer(m Client) error {
-	manager := NewManageToAPI(m)
+func StartServer(m Client, d DataBase) error {
+	manager := NewManageToAPI(m, d)
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", manager.RootHandler)
+	mux.HandleFunc("/", manager.MainHandler)
+	mux.HandleFunc("/alldevices", manager.AllDevicesHandler)
 	mux.HandleFunc("/postform", manager.PostHandler)
 	mux.HandleFunc("/device", manager.DeviceHandler)
+	mux.HandleFunc("/login", func(rw http.ResponseWriter, r *http.Request) {
+		manager.LoginHandler(rw, "")
+	})
+	mux.HandleFunc("/postlogin", manager.PostLoginHandler)
 	fmt.Println("StartServer()")
 	err := http.ListenAndServe(":8001", mux)
 
@@ -50,4 +65,10 @@ func StartServer(m Client) error {
 		return err
 	}
 	return nil
+}
+
+func (h *ManageToAPI) CheckAuth(w http.ResponseWriter, r *http.Request) {
+	if h.Auth == false {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 }
