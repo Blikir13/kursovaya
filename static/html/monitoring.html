@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система мониторинга</title>
+    <link rel="icon" type="image/x-icon" href="https://w7.pngwing.com/pngs/573/651/png-transparent-laptop-magnifying-glass-computer-online-data-text-poster-media.png">
+    <link href="/static/css/style.css" rel="stylesheet" >
+</head>
+<body>
+    
+    Мониторинг изменений состояний выходов устройств
+        <table class="table">
+            <thead>
+                <div>
+                <th>№ записи</th>
+                </div>
+                <th>Имя устройства</th>
+                <th>Выход</th>
+                <th>Состояние</th>
+                <th>Изменение</th>
+                <th>Дата и время</th>
+            </thead>
+            {{range .Rows}}
+            <tr>
+                      <td>{{ .Id}}</td>
+                      <td>{{ .Name}}</td>
+                      <td>{{.Port}}</td>
+                      <td>{{.State}}</td>
+                      <td>{{.Change}}</td>
+                      <td>{{.Date}}</td>
+     
+            </tr>
+            {{end}}
+     </table>
+
+     <div>
+        <form method="get" action="alldevices">
+            <input type="submit" value="Ко всем устройствам" > 
+        </form>
+     </div>
+</body>
+</html>
+
+
+
+

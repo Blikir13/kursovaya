@@ -5,6 +5,7 @@ import(
 	"fmt"
 	"crypto/md5"
     "encoding/hex"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -44,4 +45,16 @@ func (d *db) Login (login, Password string) (error) {
 		return fmt.Errorf("error", login, Password, err)
 	}
 	return nil
+}
+
+func (d *db) Write (name string, port int, port_state string, bool_change bool) error {
+
+	_, err := d.base.Exec("insert into logs (device_name, port, port_state, bool_change, date_time) values ($1, $2, $3, $4, $5)", name, port, port_state, bool_change, time.Now())
+	return err
+}
+
+func (d *db) GetTable () *sql.Rows {
+	rows, _ := d.base.Query("select * from logs")
+	fmt.Println("error: ", rows)
+	return rows
 }

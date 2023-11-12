@@ -10,13 +10,13 @@ func (m *Manager) SetDevice(num int, state int, name string) error {
 	}
 
 	m.NowDevice = device
-	var oid string
-	oid, err = m.SearchPortOid(num)
+	//var oid string
+	//oid, err = m.SearchPortOid(num)
 	if err != nil {
 		return err
 	}
 
-	err = m.PDU.Set(oid, state)
+	err = m.PDU.Set(num, state)
 	if err != nil {
 		return err
 	}

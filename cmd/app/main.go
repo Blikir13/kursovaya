@@ -41,12 +41,21 @@ func main() {
 
 
 	base := db.NewDB()
+	//base.Write("apc", 1, "On", true)
 	fmt.Println( base.Login("12", "12"))
 
-	new := driver.New(*cfg)
+
+
+
+
+	//new := driver.New(*cfg)
+	palka := driver.NewPalka(*cfg)
+
 	newapi := api.NewClientAPI()
-	manager := manager.NewManager(new, *manager_cfg)
-	//manager.Monitoring()
+	manager := manager.NewManager(palka, *manager_cfg, base)
+
+	go manager.Monitoring()
+
 	api.RunAPI(manager)
 	server.StartServer(newapi, base)
 

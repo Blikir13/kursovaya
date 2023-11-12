@@ -6,7 +6,7 @@ import (
 )
 
 func (h *ManageToAPI) DeviceHandler(w http.ResponseWriter, r *http.Request) {
-	h.CheckAuth(w, r)
+	//h.CheckAuth(w, r)
 	h.DeviceName = r.FormValue("device")
 	res, err := h.Client.ClientGetDevices(h.DeviceName)
 	if err != nil {

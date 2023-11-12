@@ -7,7 +7,7 @@ import (
 
 type PDU interface {
 	Get(oid []string) ([]string, error)
-	Set(oid string, state int) error
+	Set(oid int, state int) error
 	CheckState(ip string) (bool, error)
 	InitIP(ip string)
 }
@@ -23,22 +23,34 @@ type Device struct {
 	ports []portInfo
 }
 
+type DataBase interface {
+	Write (name string, port int, port_state string, bool_change bool) error
+}
+
 type Manager struct {
 	Devices   []Device
 	NowDevice Device
 	mu        sync.Mutex
 	PDU
+	DataBase
 }
 
-func NewManager(m PDU, conf Config) *Manager {
+func NewManager(m PDU, conf Config, d DataBase) *Manager {
 	var devices []Device
+	var p []portInfo
 	for _, val := range conf.Devices {
-		d := Device{name: val.Name, ip: val.IP, ports: []portInfo{{oid: val.Ports[0].OID, port: val.Ports[0].Port}}}
+		for _, porti := range val.Ports{
+			p = append(p, portInfo{oid: porti.OID, port: porti.Port})
+		}
+		d := Device{name: val.Name, ip: val.IP, ports: p}
 		devices = append(devices, d)
+		p = []portInfo{}
 	}
+	fmt.Println("new devices", devices)
 	return &Manager{
 		PDU: m,
 		Devices: devices,
+		DataBase: d,
 	}
 }
 

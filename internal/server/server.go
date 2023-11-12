@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"html/template"
+	"database/sql"
 
 	"snmp_get/internal/manager"
 )
 
 var (
 	tmpl     *template.Template
-	tmplManager, tmplMain, tmplLogin *template.Template
+	tmplManager, tmplMain, tmplLogin, tmplMonitoring *template.Template
 )
 
 type Client interface {
@@ -21,6 +22,7 @@ type Client interface {
 
 type DataBase interface {
 	Login (login, Password string) error
+	GetTable () *sql.Rows
 }
 
 type ManageToAPI struct {
@@ -40,10 +42,11 @@ func NewManageToAPI(m Client, d DataBase) *ManageToAPI {
 
 // Init template
 func init() {
-	tmpl = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/index.html"))
-	tmplManager = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/manager.html"))
-	tmplMain = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/main.html"))
-	tmplLogin = template.Must(template.ParseFiles("/Users/mac/Desktop/practice/static/login.html"))
+	tmpl = template.Must(template.ParseFiles("/Users/mac/Desktop/practice 2/static/html/device.html"))
+	tmplManager = template.Must(template.ParseFiles("/Users/mac/Desktop/practice 2/static/html/manager.html"))
+	tmplMain = template.Must(template.ParseFiles("/Users/mac/Desktop/practice 2/static/html/main.html"))
+	tmplLogin = template.Must(template.ParseFiles("/Users/mac/Desktop/practice 2/static/html/login.html"))
+	tmplMonitoring = template.Must(template.ParseFiles("/Users/mac/Desktop/practice 2/static/html/monitoring.html"))
 }
 
 func StartServer(m Client, d DataBase) error {
@@ -57,6 +60,12 @@ func StartServer(m Client, d DataBase) error {
 		manager.LoginHandler(rw, "")
 	})
 	mux.HandleFunc("/postlogin", manager.PostLoginHandler)
+	mux.HandleFunc("/monitoring", manager.MonitoringHandler)
+
+
+	fileServer := http.FileServer(http.Dir("./static/"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
 	fmt.Println("StartServer()")
 	err := http.ListenAndServe(":8001", mux)
 

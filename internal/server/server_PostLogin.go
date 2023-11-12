@@ -6,7 +6,7 @@ import (
 )
 
 func (h *ManageToAPI) PostLoginHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.FormValue("login"), r.FormValue("password"))
+	fmt.Println("password: ", r.FormValue("login"), r.FormValue("password"))
 	login := r.FormValue("login")
 	password := r.FormValue("password")
 	if h.DataBase.Login(login, password) != nil {

@@ -2,12 +2,16 @@ devices:
   - ip: "40.1.0.73"
     name: "apc1"
     ports:
-      - oid: ".1"
+      - oid: ".1.2"
         portnum: 1
       - oid: ".1"
         portnum: 2
-  - ip: "40.1.0.72"
-    name: "apc3"
-    ports:
+      - oid: ".1.2"
+        portnum: 3
       - oid: ".1"
-        portnum: 1
+        portnum: 4
+  # - ip: "40.1.0.72"
+  #   name: "apc3"
+  #   ports:
+  #     - oid: ".1"
+  #       portnum: 1
