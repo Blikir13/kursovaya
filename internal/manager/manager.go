@@ -46,7 +46,6 @@ func NewManager(m PDU, conf Config, d DataBase) *Manager {
 		devices = append(devices, d)
 		p = []portInfo{}
 	}
-	fmt.Println("new devices", devices)
 	return &Manager{
 		PDU: m,
 		Devices: devices,
@@ -55,7 +54,7 @@ func NewManager(m PDU, conf Config, d DataBase) *Manager {
 }
 
 func (m *Manager) SearchDevice(name string) (Device, error) {
-	fmt.Println("New: ", m)
+	//fmt.Println("New: ", m)
 	for _, val := range m.Devices {
 		if val.name == name {
 			return val, nil

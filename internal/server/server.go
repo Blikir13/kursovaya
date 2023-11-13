@@ -57,7 +57,7 @@ func StartServer(m Client, d DataBase) error {
 	mux.HandleFunc("/postform", manager.PostHandler)
 	mux.HandleFunc("/device", manager.DeviceHandler)
 	mux.HandleFunc("/login", func(rw http.ResponseWriter, r *http.Request) {
-		manager.LoginHandler(rw, "")
+		manager.LoginHandler(rw, r, "")
 	})
 	mux.HandleFunc("/postlogin", manager.PostLoginHandler)
 	mux.HandleFunc("/monitoring", manager.MonitoringHandler)

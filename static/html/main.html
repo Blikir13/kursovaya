@@ -16,16 +16,36 @@
             font-weight: 400;
             text-rendering: optimizeLegibility;
         }
+        .sizee {
+            font-size: 20px;
+            font-weight: 900;
+        }
     </style>
 </head>
 <body>
     <div class="position-relative overflow-hidden p-1 p-md-1 m-md-5 text-center bg-light">
-        <div class="col-md-5 p-lg-5 mx-auto my-5">
-          <h1 class="display-4 fw-normal">Система мониторинга состояний PDU</h1>
-          <p class="lead fw-normal">И еще более остроумный подзаголовок в придачу. Начните свои маркетинговые усилия с этого примера, основанного на маркетинговых страницах Apple.</p>
+        <div class="col-md-5 p-lg-1 mx-auto my-5">
+          <h1 class="display-5 fw-normal">Система мониторинга состояний PDU</h1>
+          <p class="lead fw-normal">
+            Данное приложение используется для мониторинга состояний устройств распределения 
+            питания и предназначено для предприятий или организаций, 
+            где есть системы электропитания. Она обеспечивает контроль и управление электропитанием.
+          </p>
+          {{if eq .Au false }}
+          <p class="lead fw-normal">
+              <div class="sizee">
+          Для дальнейшей работы требуется авторизация!
+          </div>
+          </p>
           <form method="get" action="login">
-            <button class="btn btn-secondary btn-lg" type="submit" id="inputGroupFileAddon04">Войти для дальней работы</button>
+            <button class="btn btn-secondary btn-lg" type="submit" id="inputGroupFileAddon04">Войти для дальнейшей работы</button>
             </form>
+            {{else}}
+            Вы уже авторизированы
+            <form method="get" action="alldevices">
+                <button class="btn btn-secondary btn-lg" type="submit" id="inputGroupFileAddon04">Перейти к устройствам</button>
+                </form>
+            {{end}}
         </div>
       </div>
 </body>

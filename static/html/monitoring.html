@@ -24,7 +24,7 @@
             <div id="element">
                 <div class="p-2">
                     <form method="get" action="alldevices">
-                        <button type="submit" class="btn btn-outline-light btn-lg px-5 btn-dark"> Ко всем устройствам" </button>
+                        <button type="submit" class="btn btn-outline-light btn-lg px-5 btn-dark"> Ко всем устройствам </button>
                     </form>
                  </div>
             </div>
@@ -58,7 +58,14 @@
                       <td class="text-left">{{ .Name}}</td>
                       <td class="text-left">{{.Port}}</td>
                       <td class="text-left">{{.State}}</td>
-                      <td class="text-left">{{.Change}}</td>
+                      <td class="text-left">
+                          {{if eq .Change false }}
+                          Не изменено
+                          {{else}}
+                            Изменено
+                          {{end}}
+
+                      </td>
                       <td class="text-left">{{.Date}}</td>
      
             </tr>

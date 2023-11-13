@@ -29,7 +29,7 @@ func (s *Palka) InitIP(ip string) {
 func (s *Palka) Get(oid []string) ([]string, error) {
 	if len(s.state) == 0{
 		for i :=0; i < len(oid); i++ {
-			s.state = append(s.state, "On")
+			s.state = append(s.state, "Включен")
 		}
 	}
 	return s.state, nil
@@ -37,9 +37,9 @@ func (s *Palka) Get(oid []string) ([]string, error) {
 
 func (s *Palka) Set(num int, state int) error  {
 	if state==1{
-		s.state[num-1] = "On"
+		s.state[num-1] = "Выключен"
 	}else {
-		s.state[num-1] = "Off"
+		s.state[num-1] = "Включен"
 	}
 	return nil
 }

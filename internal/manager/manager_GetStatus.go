@@ -26,7 +26,6 @@ func (m *Manager) GetStatus(name string) (GetResult, error) {
 	for _, val := range device.ports {
 		allOid = append(allOid, val.oid)
 	}
-	fmt.Println(device.ports)
 	resGet, err := m.PDU.Get(allOid)
 	if err != nil {
 		return GetResult{Error: fmt.Sprint(err)}, err

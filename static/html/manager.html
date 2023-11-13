@@ -29,8 +29,8 @@
                 Название устройства: 
                 </div>
                 <input type="text" value="{{.Names}}" class="fw-bold" name="device" readonly>
-                {{if eq .States "installed"}}
-                <input type="submit" value="Выбрать" > 
+                {{if eq .States "Подключен"}}
+                <input type="submit" value="Выбрать устройство" > 
                 {{else}}
             {{end}}
             </form>
@@ -48,5 +48,6 @@
             </button>
             </div>
     </form>
+
 </body>
 </html>

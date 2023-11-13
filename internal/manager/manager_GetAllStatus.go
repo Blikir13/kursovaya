@@ -23,9 +23,9 @@ func (m *Manager) GetAllStatus() (JsonRes, error) {
 			return JsonRes{}, err
 		}
 		if res {
-			result.Out = append(result.Out, ManagerOutlet{Names: val.name, IPs: val.ip, States: "installed", Error: ""})
+			result.Out = append(result.Out, ManagerOutlet{Names: val.name, IPs: val.ip, States: "Подключен", Error: ""})
 		} else {
-			result.Out = append(result.Out, ManagerOutlet{Names: val.name, IPs: val.ip, States: "uninstalled", Error: fmt.Sprintf("%v", err)})
+			result.Out = append(result.Out, ManagerOutlet{Names: val.name, IPs: val.ip, States: "Не подключен", Error: fmt.Sprintf("%v", err)})
 		}
 	}
 	return result, nil
